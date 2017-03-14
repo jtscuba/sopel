@@ -265,7 +265,7 @@ class Sopel(irc.Bot):
         # Deprecated, but way too much of a pain to remove.
         self.say(text, recipient, max_messages)
 
-    def say(self, text, recipient, max_messages=1):
+    def say(self, text, recipient, max_messages=1, no_rate_limit = False):
         """Send ``text`` as a PRIVMSG to ``recipient``.
 
         In the context of a triggered callable, the ``recipient`` defaults to
@@ -311,7 +311,7 @@ class Sopel(irc.Bot):
 
             recipient_id = Identifier(recipient)
 
-            if recipient_id not in self.stack:
+            if recipient_id not in self.stack or no_rate_limit:
                 self.stack[recipient_id] = []
             elif self.stack[recipient_id]:
                 elapsed = time.time() - self.stack[recipient_id][-1][0]
